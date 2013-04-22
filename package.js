@@ -3,9 +3,10 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use(["templating"]);
+  api.use(["templating", "coffeescript"], ["client"]);
   api.add_files("templates.html", ["client"]);
   api.add_files("templates.css", ["client"])
   api.add_files("ace-builds/src/ace.js", ["client"]);
-  api.add_files("main.js", ["client"]);
+  api.add_files("lib/utils.coffee", ["client"]);
+  api.add_files("editor.coffee", ["client"]);
 });

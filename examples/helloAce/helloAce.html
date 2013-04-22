@@ -1,13 +1,9 @@
 <head>
-  <title>helloAce</title>
+  <title>Hello Ace!</title>
 </head>
 
 <body>
-  {{> hello}}
+  {{#constant}}
+  {{> aceEditor}}
+  {{/constant}}
 </body>
-
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
-</template>

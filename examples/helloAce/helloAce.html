@@ -3,5 +3,11 @@
 </head>
 
 <body>
-  {{> aceEditor}}
+  {{> demo}}
 </body>
+
+<template name="demo">
+<h1>Hello Ace!</h1>
+{{> aceEditor }}
+Line: {{lineNumber}}
+</template>

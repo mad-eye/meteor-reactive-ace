@@ -1,4 +1,8 @@
 #editor will be instantiated in this way when user uses aceEditor helper is used
 if Meteor.isClient
+  window.editor = new ReactiveAce
+
   Template.aceEditor.rendered = ->
-    window.editor = new Editor(ace.edit("aceEditor"))
+    #TODO
+    #console.log "RENDERED, why is this being called so much?"
+    editor.attach ace.edit "aceEditor"

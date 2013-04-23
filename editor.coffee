@@ -16,17 +16,13 @@ class @ReactiveAce
 
   setupEvents: ->
     @_editor.on "changeSelection", =>
+      #TODO could be smarter and only invalidate these when they change
       @_deps['lineNumber']?.changed()
+      @_deps['column']?.changed()
+      @_deps['selection']?.changed()
 
-
-#properties:
-#  lineNumber
-#  column
-#  checksum?
-#  selection (null or range)
-#  theme
-#
-#
+    @_editor.on "change", =>
+      @_deps['checksum']?.changed()
 
 ReactiveAce.addProperty = (name, getter, setter) ->
   descriptor = {}
@@ -60,8 +56,21 @@ ReactiveAce.addProperty 'showInvisibles', ->
   , (value) ->
     @_editor.setShowInvisibles value
 
+#TODO figure out what to do here..
+#maybe include just a few themese bundled up?
 ReactiveAce.addProperty 'theme', ->
     @_editor.getTheme()
   , (value) ->
     @_editor.setTheme("ace/theme/"+value)
 
+ReactiveAce.addProperty 'selection', ->
+    @_editor?.getSelectionRange()
+  , (value) ->
+    #TODO code below doesn't work..
+#    @_editor?.clearSelection()
+#    @_editor?.addSelectionMarker(value)
+
+ReactiveAce.addProperty 'checksum', ->
+  #TODO maybe need to rate limit this?
+  if @_editor?.getValue()
+    crc32 @_editor?.getValue()

@@ -16,3 +16,13 @@ git clone git://github.com/mad-eye/meteor-reactive-ace.git; cd meteor-reactive-a
 3. Check out the helloAce example
   1. `cd examples/helloAce`
   2. `mrt`
+
+##Including in your project
+
+### Simple Setup
+1. Add reactive-ace to your smart.json file
+2. Include `{{> aceEditor}}` in one of your templates
+3. Use the global `editor` variable to access the editor's reactive variables (`editor.line`, `editor.value`, etc)
+
+### Advanced setup
+TODO

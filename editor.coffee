@@ -6,23 +6,26 @@ class @ReactiveAce
     return if @_attached
     @_attached = true
     @_editor = ace.edit editorId
-    for k, v of @deps
-      v.changed()
+    for k, dep of @deps
+      dep.changed()
     @setupEvents()
 
   depend: (key) ->
     @_deps[key] ?= new Deps.Dependency
     @_deps[key].depend()
 
+  change: (key) ->
+    @_deps[key]?.changed()
+
   setupEvents: ->
     @_editor.on "changeSelection", =>
       #TODO could be smarter and only invalidate these when they change
-      @_deps['lineNumber']?.changed()
-      @_deps['column']?.changed()
-      @_deps['selection']?.changed()
+      @change 'lineNumber'
+      @change 'column'
+      @change 'selection'
 
     @_editor.on "change", =>
-      @_deps['checksum']?.changed()
+      @change 'checksum'
 
 ReactiveAce.addProperty = (name, getter, setter) ->
   descriptor = {}
@@ -33,7 +36,7 @@ ReactiveAce.addProperty = (name, getter, setter) ->
   if setter
     descriptor.set = (value) ->
       return if getter and value == getter.call this
-      @_deps[name]?.changed()
+      @change name
       setter.call this, value
   Object.defineProperty ReactiveAce.prototype, name, descriptor
 
@@ -56,17 +59,27 @@ ReactiveAce.addProperty 'showInvisibles', ->
   , (value) ->
     @_editor.setShowInvisibles value
 
-#TODO figure out what to do here..
-#maybe include just a few themese bundled up?
-ReactiveAce.addProperty 'theme', ->
-    @_editor.getTheme()
+ReactiveAce.addProperty 'tabSize', ->
+    return @_editor?.getSession()?.getTabSize()
   , (value) ->
-    @_editor.setTheme("ace/theme/"+value)
+    @_editor.getSession().setTabSize tabSize
+
+ReactiveAce.addProperty 'useSoftTabs', ->
+    return @_editor?.getSession()?.getUseSoftTabs()
+  , (value) ->
+    @_editor.getSession().setUseSoftTabs value
+    
+ReactiveAce.addProperty 'value', ->
+    return @_editor?.getValue()
+
+###
+# Read Only properties
+###
 
 ReactiveAce.addProperty 'selection', ->
     @_editor?.getSelectionRange()
-  , (value) ->
     #TODO code below doesn't work..
+#  , (value) ->
 #    @_editor?.clearSelection()
 #    @_editor?.addSelectionMarker(value)
 

@@ -3,13 +3,20 @@ class @ReactiveAce
     @_deps = {}
 
   attach: (editorId) ->
+    return if @_attached
+    @_attached = true
     @_editor = ace.edit editorId
     for k, v of @deps
       v.changed()
+    @setupEvents()
 
   depend: (key) ->
     @_deps[key] ?= new Deps.Dependency
     @_deps[key].depend()
+
+  setupEvents: ->
+    @_editor.on "changeSelection", =>
+      @_deps['lineNumber']?.changed()
 
 
 #properties:

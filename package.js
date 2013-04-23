@@ -9,4 +9,5 @@ Package.on_use(function (api, where) {
   api.add_files("ace-builds/src/ace.js", ["client"]);
   api.add_files("lib/utils.coffee", ["client"]);
   api.add_files("editor.coffee", ["client"]);
+  api.add_files("editorSetup.coffee", ["client"]);
 });

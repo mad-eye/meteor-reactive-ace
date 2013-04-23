@@ -9,7 +9,7 @@ npm install -g meteorite
 `
 1. Clone this repo
 `
-git clone git://github.com/mad-eye/meteor-reactive-ace.git
+git clone git://github.com/mad-eye/meteor-reactive-ace.git; cd meteor-reactive-ace
 `
 2. Update submodules
 `git submodule update --init ace-builds`

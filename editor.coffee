@@ -24,21 +24,37 @@ class @ReactiveAce
 ReactiveAce.addProperty = (name, getter, setter) ->
   descriptor = {}
   if getter
-    descriptor.get = =>
-      return getter()
+    descriptor.get = ->
+      @depend name
+      return getter.call(this)
   if setter
-    descriptor.set = (value) =>
-      setter value
+    descriptor.set = (value) ->
+      return if getter and value == getter.call this
+      @_deps[name]?.changed()
+      setter.call this, value
+  Object.defineProperty ReactiveAce.prototype, name, descriptor
 
-Object.defineProperty ReactiveAce.prototype, 'lineNumber',
-  get: ->
-    @depend 'lineNumber'
+ReactiveAce.addProperty 'lineNumber', ->
     @_editor?.getCursorPosition().row + 1
-
-  set: (value) ->
+  , (value) ->
     row = value - 1
-    return if row == @_editor?.getCursorPosition().row
-    @_deps['lineNumber']?.changed()
     column = @_editor?.getCursorPosition().column
     @_editor?.navigateTo row, column
+
+ReactiveAce.addProperty 'column', ->
+    @_editor?.getCursorPosition().column + 1
+  , (value) ->
+    column = value - 1
+    row = @_editor?.getCursorPosition().row
+    @_editor?.navigateTo row, column
+
+ReactiveAce.addProperty 'showInvisibles', ->
+    @_editor.getShowInvisibles()
+  , (value) ->
+    @_editor.setShowInvisibles value
+
+ReactiveAce.addProperty 'theme', ->
+    @_editor.getTheme()
+  , (value) ->
+    @_editor.setTheme("ace/theme/"+value)
 

@@ -26,6 +26,15 @@ class @ReactiveAce
 
     @_editor.on "change", =>
       @change 'checksum'
+      @change 'value'
+
+  _getEditor: ->
+    @depend 'attached'
+    return @_editor
+
+  _getSession: ->
+    @depend 'attached'
+    return @_editor?.getSession()
 
 ReactiveAce.addProperty = (name, getter, setter) ->
   descriptor = {}
@@ -55,26 +64,33 @@ ReactiveAce.addProperty 'column', ->
     @_editor?.navigateTo row, column
 
 ReactiveAce.addProperty 'showInvisibles', ->
-    @_editor.getShowInvisibles()
+    @_editor?.getShowInvisibles()
   , (value) ->
-    @_editor.setShowInvisibles value
+    @_editor?.setShowInvisibles value
 
 ReactiveAce.addProperty 'tabSize', ->
-    return @_editor?.getSession()?.getTabSize()
+    return @_getSession()?.getTabSize()
   , (value) ->
-    @_editor.getSession().setTabSize tabSize
+    @_getSession()?.setTabSize value
 
 ReactiveAce.addProperty 'useSoftTabs', ->
-    return @_editor?.getSession()?.getUseSoftTabs()
+    return @_getSession()?.getUseSoftTabs()
   , (value) ->
-    @_editor.getSession().setUseSoftTabs value
+    @_getSession()?.setUseSoftTabs value
     
-ReactiveAce.addProperty 'value', ->
-    return @_editor?.getValue()
+ReactiveAce.addProperty 'wordWrap', ->
+    return @_getSession()?.getUseWrapMode()
+  , (value) ->
+    @_getSession()?.setUseWrapMode value
+    @_getSession()?.setWrapLimitRange null, null
 
 ###
 # Read Only properties
 ###
+
+#TODO: Throttle this with _.throttle
+ReactiveAce.addProperty 'value', ->
+    return @_editor?.getValue()
 
 ReactiveAce.addProperty 'selection', ->
     @_editor?.getSelectionRange()
@@ -83,6 +99,7 @@ ReactiveAce.addProperty 'selection', ->
 #    @_editor?.clearSelection()
 #    @_editor?.addSelectionMarker(value)
 
+#TODO: Defined this using Object.defineProperty, and use value's Dep
 ReactiveAce.addProperty 'checksum', ->
   #TODO maybe need to rate limit this?
   if @_editor?.getValue()

@@ -7,7 +7,11 @@ if Meteor.isClient
       editor.column
 
     selection: ->
-      editor.selection
+      return unless editor.selection
+      start = editor.selection.start
+      end = editor.selection.end
+      #TODO: Check for start == end and display differently?
+      return "(#{start.lineNumber}, #{start.column}) -> (#{end.lineNumber}, #{end.column})"
 
     checksum: ->
       editor.checksum

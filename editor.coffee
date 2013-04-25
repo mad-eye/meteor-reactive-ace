@@ -71,6 +71,7 @@ ReactiveAce.addProperty = (name, getter, setter) ->
       setter.call this, value
   Object.defineProperty ReactiveAce.prototype, name, descriptor
 
+#1-indexed
 ReactiveAce.addProperty 'lineNumber', ->
     @_editor?.getCursorPosition().row + 1
   , (value) ->
@@ -78,12 +79,12 @@ ReactiveAce.addProperty 'lineNumber', ->
     column = @_editor?.getCursorPosition().column
     @_editor?.navigateTo row, column
 
+#0-indexed
 ReactiveAce.addProperty 'column', ->
-    @_editor?.getCursorPosition().column + 1
+    @_editor?.getCursorPosition().column
   , (value) ->
-    column = value - 1
     row = @_editor?.getCursorPosition().row
-    @_editor?.navigateTo row, column
+    @_editor?.navigateTo row, value
 
 ReactiveAce.addProperty 'showInvisibles', ->
     @_editor?.getShowInvisibles()
@@ -144,7 +145,11 @@ ReactiveAce.addProperty 'value', ->
     return @_editor?.getValue()
 
 ReactiveAce.addProperty 'selection', ->
-    @_editor?.getSelectionRange()
+    range = @_editor?.getSelectionRange()
+    return unless range
+    range.start.lineNumber = range.start.row + 1
+    range.end.lineNumber = range.end.row + 1
+    return range
     #TODO code below doesn't work..
 #  , (value) ->
 #    @_editor?.clearSelection()

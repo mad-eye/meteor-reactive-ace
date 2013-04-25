@@ -78,10 +78,16 @@ ReactiveAce.addProperty "theme", ->
   , (value) ->
     @_editor?.setTheme "ace/theme/#{value}"
 
-ReactiveAce.addProperty "mode", ->
+ReactiveAce.addProperty "syntaxMode", ->
     return @_getSession()?.getMode()?.$id?.split("/").pop()
   , (value) ->
     @_getSession()?.setMode "ace/mode/#{value}"
+
+#TODO: Doesn't work yet
+#ReactiveAce.addProperty "keybinding", ->
+    #return @_editor?.getKeyboardHandler()
+  #, (value) ->
+    #@_editor?.setKeyboardHandler "ace/keyboard/#{value}"
 
 ReactiveAce.addProperty 'useSoftTabs', ->
     return @_getSession()?.getUseSoftTabs()

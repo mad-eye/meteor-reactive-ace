@@ -12,24 +12,20 @@ if Meteor.isClient
     checksum: ->
       editor.checksum
       
-    #ast: ->
-      #value = editor.value
-      #try
-        #JSON.stringify esprima.parse value
-      #catch e
-        ##console.log "probably a parse error:", e.message
+    ast: ->
+      #Need to set editor.parseEnabled = true
+      JSON.stringify editor.parsedBody
 
-  #Template.tagList.helpers
-    #tags: ->
-      #doc = null
-      #try
-        #doc = esprima.parse(editor.value)
-        #console.log "Doc:", doc
-      #catch e
-        #return
-      #tags = []
-      #for elt in doc.body
-        #console.log "Returning", JSON.stringify elt
-        #tags.push elt
-      #tags
-           
+    parseError: ->
+      #Need to set editor.parseEnabled = true
+      editor.parseError
+
+  Template.tagList.helpers
+    #Not yet working.
+    tags: ->
+      console.log "tags"
+      return unless editor.parsedBody
+      tokens = editor.parsedBody?.tokens
+      console.log "Found #{tokens?.length} tokens"
+      _.filter tokens, (token) ->
+        token.type == "Identifier"

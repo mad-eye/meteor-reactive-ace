@@ -4,6 +4,7 @@
 
 <body>
   {{> demo}}
+  {{> tagList}}
 </body>
 
 <template name="demo">
@@ -12,5 +13,17 @@
 Line: {{lineNumber}} <br />
 Column: {{column}} <br />
 Selection: {{selection}} <br />
-Checksum: {{checksum}} 
+Checksum: {{checksum}} <br />
+Ast: {{ast}}
+</template>
+
+<template name="tagList">
+  <div>
+    <h2>Tags</h2>
+    <ul>
+        {{#each tags}}
+          <li>{{type}}</li>
+        {{/each}}
+    </ul>
+  </div>
 </template>

@@ -16,6 +16,7 @@ class @ReactiveAce
 
   change: (key) ->
     @_deps[key]?.changed()
+    
 
   setupEvents: ->
     @_editor.on "changeSelection", =>
@@ -26,6 +27,7 @@ class @ReactiveAce
 
     @_editor.on "change", =>
       @change 'checksum'
+      @change 'value'
 
 ReactiveAce.addProperty = (name, getter, setter) ->
   descriptor = {}

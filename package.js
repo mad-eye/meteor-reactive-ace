@@ -11,4 +11,5 @@ Package.on_use(function (api, where) {
   api.add_files("lib/crc32.js", ["client"]);
   api.add_files("editor.coffee", ["client"]);
   api.add_files("editorSetup.coffee", ["client"]);
+  api.add_files("lib/esprima.js", ["client"]);
 });

@@ -79,7 +79,7 @@ ReactiveAce.addProperty "theme", ->
     @_editor?.setTheme "ace/theme/#{value}"
 
 ReactiveAce.addProperty "mode", ->
-    return @_getSession()?.getMode()
+    return @_getSession()?.getMode()?.$id?.split("/").pop()
   , (value) ->
     @_getSession()?.setMode "ace/mode/#{value}"
 

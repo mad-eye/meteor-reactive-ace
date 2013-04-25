@@ -28,7 +28,6 @@ if Meteor.isClient
   Template.tagList.helpers
     #Not yet working.
     tags: ->
-      console.log "tags"
       return unless editor.parsedBody
       tokens = editor.parsedBody?.tokens
       console.log "Found #{tokens?.length} tokens"

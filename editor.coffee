@@ -13,16 +13,19 @@ class @ReactiveAce
     #Populate the parsed body and parse error
     #XXX: Is there a better way to do this?
     Meteor.autorun =>
-      return unless @parseEnabled
-      try
-        @_parsedBody = esprima.parse editor.value, @_parseOptions
-        @change 'parsedBody'
-        if @_parseError
-          @_parseError = null
-          @change 'parseError'
-      catch e
-        @_parseError = e
+      @_parseBody()
+
+  _parseBody: ->
+    return unless @parseEnabled
+    try
+      @_parsedBody = esprima.parse editor.value, @_parseOptions
+      @change 'parsedBody'
+      if @_parseError
+        @_parseError = null
         @change 'parseError'
+    catch e
+      @_parseError = e
+      @change 'parseError'
 
   attach: (editorId) ->
     return if @_attached

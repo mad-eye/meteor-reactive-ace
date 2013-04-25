@@ -9,12 +9,27 @@
 
 <template name="demo">
 <h1>Hello Ace!</h1>
-{{> aceEditor }}
+<div>
+  {{> aceEditor }}
+</div>
+<div>
 Line: {{lineNumber}} <br />
+</div>
+<div>
 Column: {{column}} <br />
+</div>
+<div>
 Selection: {{selection}} <br />
+</div>
+<div>
 Checksum: {{checksum}} <br />
+</div>
+<div>
 Ast: {{ast}}
+</div>
+<div>
+Parse Error: {{parseError}}
+</div>
 </template>
 
 <template name="tagList">

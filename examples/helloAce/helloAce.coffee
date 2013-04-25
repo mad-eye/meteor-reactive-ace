@@ -17,8 +17,9 @@ if Meteor.isClient
       JSON.stringify editor.parsedBody
 
     parseError: ->
-      #Need to set editor.parseEnabled = true
-      editor.parseError
+      e = editor.parseError
+      return unless e
+      "(#{e.lineNumber}, #{e.column}) #{e.description}"
 
   Template.tagList.helpers
     #Not yet working.

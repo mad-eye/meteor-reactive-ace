@@ -16,8 +16,13 @@ class @ReactiveAce
       return unless @parseEnabled
       try
         @_parsedBody = esprima.parse editor.value, @_parseOptions
+        @change 'parsedBody'
+        if @_parseError
+          @_parseError = null
+          @change 'parseError'
       catch e
         @_parseError = e
+        @change 'parseError'
 
   attach: (editorId) ->
     return if @_attached
@@ -129,6 +134,7 @@ ReactiveAce.addProperty 'parseEnabled', ->
 ReactiveAce.addProperty 'parsedBody', ->
   @_parsedBody
 
+#Error {index: 1, lineNumber: 1, column: 2, description: "Unexpected end of input"}
 ReactiveAce.addProperty 'parseError', ->
   @_parseError
 

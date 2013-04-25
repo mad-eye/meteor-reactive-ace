@@ -1,6 +1,23 @@
+defaultParseOptions =
+  loc: true #loc: {start: {line: (1-based), column: (0-based)}, end:}
+  range: false #range: [startIndex, endIndex]
+  tokens: true # return addional array of all tokens found
+  tolerant: false # tolerate errors, include errors: []; doesn't seem to work yet
+  comments: false # comments: [type: value:]
+
 class @ReactiveAce
-  constructor: ->
+  constructor: (parseOptions = {}) ->
     @_deps = {}
+    @_parseOptions = _.extend defaultParseOptions, parseOptions
+
+    #Populate the parsed body and parse error
+    #XXX: Is there a better way to do this?
+    Meteor.autorun =>
+      return unless @parseEnabled
+      try
+        @_parsedBody = esprima.parse editor.value, @_parseOptions
+      catch e
+        @_parseError = e
 
   attach: (editorId) ->
     return if @_attached
@@ -16,7 +33,6 @@ class @ReactiveAce
 
   change: (key) ->
     @_deps[key]?.changed()
-    
 
   setupEvents: ->
     @_editor.on "changeSelection", =>
@@ -101,9 +117,21 @@ ReactiveAce.addProperty 'wordWrap', ->
     @_getSession()?.setUseWrapMode value
     @_getSession()?.setWrapLimitRange null, null
 
+ReactiveAce.addProperty 'parseEnabled', ->
+    @_parseEnabled
+  , (value) ->
+    @_parseEnabled = value
+
 ###
 # Read Only properties
 ###
+
+ReactiveAce.addProperty 'parsedBody', ->
+  @_parsedBody
+
+ReactiveAce.addProperty 'parseError', ->
+  @_parseError
+
 
 #TODO: Throttle this with _.throttle
 ReactiveAce.addProperty 'value', ->

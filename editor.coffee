@@ -78,6 +78,11 @@ ReactiveAce.addProperty "theme", ->
   , (value) ->
     @_editor?.setTheme "ace/theme/#{value}"
 
+ReactiveAce.addProperty "mode", ->
+    return @_getSession()?.getMode()
+  , (value) ->
+    @_getSession()?.setMode "ace/mode/#{value}"
+
 ReactiveAce.addProperty 'useSoftTabs', ->
     return @_getSession()?.getUseSoftTabs()
   , (value) ->

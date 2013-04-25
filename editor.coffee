@@ -73,6 +73,11 @@ ReactiveAce.addProperty 'tabSize', ->
   , (value) ->
     @_getSession()?.setTabSize value
 
+ReactiveAce.addProperty "theme", ->
+    return @_editor?.getTheme()?.split("/").pop()
+  , (value) ->
+    @_editor?.setTheme "ace/theme/#{value}"
+
 ReactiveAce.addProperty 'useSoftTabs', ->
     return @_getSession()?.getUseSoftTabs()
   , (value) ->

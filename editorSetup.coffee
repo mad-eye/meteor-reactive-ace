@@ -1,3 +1,7 @@
+ace.config.set "modePath", "/ace"
+ace.config.set "themePath", "/ace"
+ace.config.set "workerPath", "/ace"
+
 #editor will be instantiated in this way when user uses aceEditor helper is used
 if Meteor.isClient
   window.editor = new ReactiveAce

@@ -7,7 +7,6 @@ if Meteor.isClient
       editor.column
 
     selection: ->
-      console.log editor.selection
       editor.selection
 
     checksum: ->

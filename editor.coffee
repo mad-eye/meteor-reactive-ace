@@ -77,7 +77,7 @@ ReactiveAce.addProperty = (name, getter, setter) ->
 #1-indexed
 ReactiveAce.addProperty 'lineNumber', ->
     row = @_editor?.getCursorPosition().row
-    return null unless row
+    return null unless row?
     return row + 1
   , (value) ->
     row = value - 1
@@ -87,7 +87,7 @@ ReactiveAce.addProperty 'lineNumber', ->
 #0-indexed
 ReactiveAce.addProperty 'column', ->
     column = @_editor?.getCursorPosition().column
-    return null unless column
+    return null unless column?
     return column
   , (value) ->
     row = @_editor?.getCursorPosition().row

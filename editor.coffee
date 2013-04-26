@@ -11,9 +11,12 @@ class @ReactiveAce
     @_parseOptions = _.extend defaultParseOptions, parseOptions
 
     #Populate the parsed body and parse error
-    #XXX: Is there a better way to do this?
     Meteor.autorun =>
       @_parseBody()
+
+    #Calculate checksum
+    Meteor.autorun =>
+      @_calculateChecksum()
 
   _parseBody: ->
     return unless @parseEnabled
@@ -26,6 +29,13 @@ class @ReactiveAce
     catch e
       @_parseError = e
       @change 'parseError'
+
+  _calculateChecksum: ->
+    return unless @value?
+    checksum = crc32 @value
+    return if checksum == @_checksum
+    @_checksum = checksum
+    @change 'checksum'
 
   attach: (editorId) ->
     return if @_attached
@@ -50,7 +60,6 @@ class @ReactiveAce
       @change 'selection'
 
     @_editor.on "change", =>
-      @change 'checksum'
       @change 'value'
 
   _getEditor: ->
@@ -164,6 +173,4 @@ ReactiveAce.addProperty 'selection', ->
 
 #TODO: Defined this using Object.defineProperty, and use value's Dep
 ReactiveAce.addProperty 'checksum', ->
-  #TODO maybe need to rate limit this?
-  if @_editor?.getValue()
-    crc32 @_editor?.getValue()
+  @_checksum

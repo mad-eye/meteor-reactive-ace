@@ -1,1 +1,12 @@
 /* CSS declarations go here */
+#errorDisplay {
+  color: red;
+}
+
+#editor {
+    
+}
+
+#ast {
+  padding-left: 20px;
+}

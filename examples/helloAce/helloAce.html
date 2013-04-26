@@ -4,31 +4,32 @@
 
 <body>
   {{> demo}}
-  {{> tagList}}
 </body>
 
 <template name="demo">
-<h1>Hello Ace!</h1>
-<div>
-  {{> aceEditor }}
-</div>
-<div>
-Line: {{lineNumber}} <br />
-</div>
-<div>
-Column: {{column}} <br />
-</div>
-<div>
-Selection: {{selection}} <br />
-</div>
-<div>
-Checksum: {{checksum}} <br />
-</div>
-<div>
-Ast: {{ast}}
-</div>
-<div>
-Parse Error: {{parseError}}
+<div class="container">
+    <div class="row">
+        <div class="span5 editor">
+            <h1>Hello Ace!</h1>
+            <div>
+                {{> aceEditor }}
+            </div>
+            <div id="status">
+                {{status}}
+            </div>
+            <div id="errorDisplay">
+                {{errorDisplay}}
+            </div>
+            <div id="tagList">
+                {{> tagList}}
+            </div>
+        </div>
+        
+        <div class="span5 ast">
+            <h2>Ast</h2>
+            <pre>{{ast}}</pre>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -37,7 +38,7 @@ Parse Error: {{parseError}}
     <h2>Tags</h2>
     <ul>
         {{#each tags}}
-          <li>{{type}}</li>
+          <li>{{name}}: ({{position.line}}, {{position.column}})</li>
         {{/each}}
     </ul>
   </div>

@@ -38,8 +38,8 @@ class @ReactiveAce
     @change 'checksum'
 
   attach: (editorId) ->
-    return if @_attached
-    @_attached = true
+    #return if @_attached
+    #@_attached = true
     @_editor = ace.edit editorId
     for k, dep of @deps
       dep.changed()
@@ -79,8 +79,8 @@ ReactiveAce.addProperty = (name, getter, setter) ->
   if setter
     descriptor.set = (value) ->
       return if getter and value == getter.call this
-      @change name
       setter.call this, value
+      @change name
   Object.defineProperty ReactiveAce.prototype, name, descriptor
 
 #1-indexed
@@ -118,9 +118,13 @@ ReactiveAce.addProperty "theme", ->
     @_editor?.setTheme "ace/theme/#{value}"
 
 ReactiveAce.addProperty "syntaxMode", ->
-    return @_getSession()?.getMode()?.$id?.split("/").pop()
+    @_syntaxMode
   , (value) ->
-    @_getSession()?.setMode "ace/mode/#{value}"
+    @_syntaxMode = value
+    if value
+      @_getSession()?.setMode "ace/mode/#{value}"
+    else
+      @_getSession()?.setMode null
 
 #TODO: Doesn't work yet
 #ReactiveAce.addProperty "keybinding", ->

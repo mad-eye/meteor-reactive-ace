@@ -7,35 +7,36 @@ defaultParseOptions =
 
 class @ReactiveAce
   constructor: (parseOptions = {}) ->
+    self = this
     @_deps = {}
     @_parseOptions = _.extend defaultParseOptions, parseOptions
 
     #Populate the parsed body and parse error
-    Meteor.autorun =>
-      @_parseBody()
+    Meteor.autorun ->
+      self._parseBody()
 
     #Calculate checksum
-    Meteor.autorun =>
-      @_calculateChecksum()
+    #Meteor.autorun ->
+      #self._calculateChecksum()
 
   _parseBody: ->
     return unless @parseEnabled
     try
       @_parsedBody = esprima.parse editor.value, @_parseOptions
-      @change 'parsedBody'
+      @changed 'parsedBody'
       if @_parseError
         @_parseError = null
-        @change 'parseError'
+        @changed 'parseError'
     catch e
       @_parseError = e
-      @change 'parseError'
+      @changed 'parseError'
 
   _calculateChecksum: ->
     return unless @value?
     checksum = crc32 @value
     return if checksum == @_checksum
     @_checksum = checksum
-    @change 'checksum'
+    @changed 'checksum'
 
   attach: (editorId) ->
     #return if @_attached
@@ -49,18 +50,18 @@ class @ReactiveAce
     @_deps[key] ?= new Deps.Dependency
     @_deps[key].depend()
 
-  change: (key) ->
+  changed: (key) ->
     @_deps[key]?.changed()
 
   setupEvents: ->
     @_editor.on "changeSelection", =>
       #TODO could be smarter and only invalidate these when they change
-      @change 'lineNumber'
-      @change 'column'
-      @change 'selection'
+      @changed 'lineNumber'
+      @changed 'column'
+      @changed 'selection'
 
     @_editor.on "change", =>
-      @change 'value'
+      @changed 'value'
 
   _getEditor: ->
     @depend 'attached'
@@ -80,7 +81,7 @@ ReactiveAce.addProperty = (name, getter, setter) ->
     descriptor.set = (value) ->
       return if getter and value == getter.call this
       setter.call this, value
-      @change name
+      @changed name
   Object.defineProperty ReactiveAce.prototype, name, descriptor
 
 #1-indexed
@@ -175,6 +176,8 @@ ReactiveAce.addProperty 'selection', ->
 #    @_editor?.clearSelection()
 #    @_editor?.addSelectionMarker(value)
 
-#TODO: Defined this using Object.defineProperty, and use value's Dep
 ReactiveAce.addProperty 'checksum', ->
-  @_checksum
+  #Do it the safe but inefficient way for now.
+  return unless @value?
+  checksum = crc32 @value
+  #@_checksum

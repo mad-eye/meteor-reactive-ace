@@ -119,9 +119,8 @@ ReactiveAce.addProperty "theme", ->
     @_editor?.setTheme "ace/theme/#{value}"
 
 ReactiveAce.addProperty "syntaxMode", ->
-    @_syntaxMode
+    @_getSession()?.getMode().$id?.split('/').pop()
   , (value) ->
-    @_syntaxMode = value
     if value
       @_getSession()?.setMode "ace/mode/#{value}"
     else

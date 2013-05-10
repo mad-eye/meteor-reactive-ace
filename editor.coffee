@@ -63,6 +63,11 @@ class @ReactiveAce
     @_editor.on "change", =>
       @changed 'value'
 
+    #Changing syntax mode somethings has a delay, which means reactivity is
+    #triggered prematurely.
+    @_editor.getSession().on 'changeMode', =>
+      @changed 'syntaxMode'
+
   _getEditor: ->
     @depend 'attached'
     return @_editor
@@ -147,6 +152,12 @@ ReactiveAce.addProperty 'parseEnabled', ->
     @_parseEnabled
   , (value) ->
     @_parseEnabled = value
+
+ReactiveAce.addProperty 'newLineMode', ->
+    return @_getSession()?.getDocument().getNewLineMode()
+  , (value) ->
+    @_getSession()?.getDocument().setNewLineMode(value)
+
 
 ###
 # Read Only properties

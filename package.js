@@ -7,8 +7,8 @@ var bundlerApi = null
 var path = Npm.require("path");
 var fs = Npm.require("fs");
 /**XXX TERRIBLE HACK
-We should try and get something pulled into meteor
-so that js files easily be added 
+We need to add js files as non-bundled resources the client can pull on need.
+This will be obsolete once Meteor's linker is released.
 */
 Package.register_extension("hack", function(bundlerApi, source_path, serve_path, where){
   var directory = path.dirname(source_path)
@@ -25,6 +25,6 @@ Package.register_extension("hack", function(bundlerApi, source_path, serve_path,
 
 Package.on_use(function (api, where) {
   api.use(["templating", "coffeescript"], ["client"]);
-  api.add_files(["ace-builds/src/ace.js", "lib/utils.coffee", "lib/crc32.js", "lib/esprima.js", "editor.coffee", "editorSetup.coffee", "hack.hack"], "client");
+  api.add_files(["ace-builds/src/ace.js", "ace-builds/src/ext-modelist.js", "lib/utils.coffee", "lib/crc32.js", "lib/esprima.js", "editor.coffee", "editorSetup.coffee", "hack.hack"], "client");
 });
 

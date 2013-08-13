@@ -121,7 +121,10 @@ ReactiveAce.addProperty 'tabSize', ->
 ReactiveAce.addProperty "theme", ->
     return @_editor?.getTheme()?.split("/").pop()
   , (value) ->
-    @_editor?.setTheme "ace/theme/#{value}"
+    if value
+      @_editor?.setTheme "ace/theme/#{value}"
+    else
+      @_editor?.setTheme null
 
 ReactiveAce.addProperty "syntaxMode", ->
     @_getSession()?.getMode().$id?.split('/').pop()

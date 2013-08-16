@@ -14,10 +14,23 @@ Package.register_extension("hack", function(bundlerApi, source_path, serve_path,
   var directory = path.dirname(source_path)
   var files = fs.readdirSync(path.join(directory, "ace-builds/src"));
   files.forEach(function(file){
+    if (file == 'snippets') {
+      return;
+    }
     bundlerApi.add_resource({
       type: "static",
       path: "/ace/" + file,
       source_file: path.join(directory, "ace-builds/src/" + file),
+      where: "client"
+    });
+  });
+
+  var snippets = fs.readdirSync(path.join(directory, "ace-builds/src/snippets"));
+  snippets.forEach(function(file){
+    bundlerApi.add_resource({
+      type: "static",
+      path: "/ace/snippets/" + file,
+      source_file: path.join(directory, "ace-builds/src/snippets/" + file),
       where: "client"
     });
   });

@@ -1,4 +1,12 @@
 if Meteor.isClient
+  window.editor = new ReactiveAce
+
+  Meteor.startup ->
+    Template.aceEditor.rendered = ->
+      editor.attach ace.edit "aceEditor"
+
+  window.editor = new ReactiveAce
+
   Template.demo.rendered = ->
     #generate abstract syntax tree
     editor.parseEnabled = true

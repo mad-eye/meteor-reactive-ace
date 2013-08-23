@@ -37,7 +37,7 @@ Package.register_extension("hack", function(bundlerApi, source_path, serve_path,
 });
 
 Package.on_use(function (api, where) {
-  api.use(["templating", "coffeescript"], ["client"]);
-  api.add_files(["ace-builds/src/ace.js", "ace-builds/src/ext-modelist.js", "lib/utils.coffee", "lib/crc32.js", "lib/esprima.js", "editor.coffee", "editorSetup.coffee", "hack.hack"], "client");
+  api.use(["templating", "coffeescript", "underscore", "deps"], ["client"]);
+  api.add_files(["ace-builds/src/ace.js", "ace-builds/src/ext-modelist.js", "lib/utils.coffee", "lib/crc32.js", "lib/esprima.js", "editor.coffee", "editorSetup.coffee", "hack.hack", "templates.html"], "client");
 });
 

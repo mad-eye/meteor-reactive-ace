@@ -3,8 +3,9 @@
   color: red;
 }
 
-#editor {
-    
+#aceEditor {
+    height:400px;
+    width: 500px;
 }
 
 #ast {

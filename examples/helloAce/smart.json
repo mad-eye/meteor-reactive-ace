@@ -1,7 +1,7 @@
 {
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
-    "branch": "master"
+    "branch": "devel"
   },
   "packages": {
     "reactive-ace":{

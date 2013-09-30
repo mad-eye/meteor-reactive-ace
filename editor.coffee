@@ -15,10 +15,6 @@ class @ReactiveAce
     Meteor.autorun ->
       self._parseBody()
 
-    #Calculate checksum
-    #Meteor.autorun ->
-      #self._calculateChecksum()
-
   _parseBody: ->
     return unless @parseEnabled
     try
@@ -30,13 +26,6 @@ class @ReactiveAce
     catch e
       @_parseError = e
       @changed 'parseError'
-
-  _calculateChecksum: ->
-    return unless @value?
-    checksum = crc32 @value
-    return if checksum == @_checksum
-    @_checksum = checksum
-    @changed 'checksum'
 
   attach: (editorId) ->
     #return if @_attached
@@ -60,8 +49,16 @@ class @ReactiveAce
       @changed 'column'
       @changed 'selection'
 
-    @_editor.on "change", =>
-      @changed 'value'
+    changeValue = _.throttle =>
+        @changed 'value'
+      , 500
+    #This dep will be changed only after the value has stopped changing
+    changeStableValue = _.debounce =>
+        @changed 'stableValue'
+      , 1000
+    @_editor.on "change", ->
+      changeValue()
+      changeStableValue()
 
     #Changing syntax mode somethings has a delay, which means reactivity is
     #triggered prematurely.
@@ -174,8 +171,12 @@ ReactiveAce.addProperty 'parseError', ->
   @_parseError
 
 
-#TODO: Throttle this with _.throttle
+#This dep will be only invalidate every 500ms
 ReactiveAce.addProperty 'value', ->
+    return @_editor?.getValue()
+
+#Similar to `value`, but only invalidates on quiescence
+ReactiveAce.addProperty 'stableValue', ->
     return @_editor?.getValue()
 
 ReactiveAce.addProperty 'selection', ->
@@ -190,7 +191,5 @@ ReactiveAce.addProperty 'selection', ->
 #    @_editor?.addSelectionMarker(value)
 
 ReactiveAce.addProperty 'checksum', ->
-  #Do it the safe but inefficient way for now.
   return unless @value?
   checksum = crc32 @value
-  #@_checksum

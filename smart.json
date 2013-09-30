@@ -3,7 +3,7 @@
   "description":"Easily include ace, receive reactive varibles for cursor position, editor contents, etc",
   "homepage":"https://github.com/mad-eye/meteor-reactive-ace",
   "author":"Madeye  (http://madeye.io)",
-  "version":"0.0.3",
+  "version":"0.0.4",
   "git": "https://github.com/mad-eye/meteor-reactive-ace.git",
   "packages":{}
 }

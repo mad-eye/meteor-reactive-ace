@@ -173,11 +173,15 @@ ReactiveAce.addProperty 'parseError', ->
 
 #This dep will be only invalidate every 500ms
 ReactiveAce.addProperty 'value', ->
-    return @_editor?.getValue()
+  return @_editor?.getValue()
 
 #Similar to `value`, but only invalidates on quiescence
 ReactiveAce.addProperty 'stableValue', ->
-    return @_editor?.getValue()
+  return @_editor?.getValue()
+
+ReactiveAce.addProperty 'isThemeDark', ->
+  @theme #depend on theme
+  return @_editor?.renderer.theme?.isDark
 
 ReactiveAce.addProperty 'selection', ->
     range = @_editor?.getSelectionRange()

@@ -47,7 +47,7 @@ class @ReactiveAce
       #TODO could be smarter and only invalidate these when they change (esp line number)
       @changed 'lineNumber'
       @changed 'column'
-    , 1000
+    , 200
 
     @_editor.on "changeSelection", =>
       @changed 'selection'

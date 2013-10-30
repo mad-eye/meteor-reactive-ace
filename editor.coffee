@@ -43,11 +43,15 @@ class @ReactiveAce
     @_deps[key]?.changed()
 
   setupEvents: ->
-    @_editor.on "changeSelection", =>
-      #TODO could be smarter and only invalidate these when they change
+    changePosition = _.throttle =>
+      #TODO could be smarter and only invalidate these when they change (esp line number)
       @changed 'lineNumber'
       @changed 'column'
+    , 1000
+
+    @_editor.on "changeSelection", =>
       @changed 'selection'
+      changePosition()
 
     changeValue = _.throttle =>
         @changed 'value'

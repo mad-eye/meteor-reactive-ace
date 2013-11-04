@@ -114,6 +114,11 @@ ReactiveAce.addProperty 'showInvisibles', ->
   , (value) ->
     @_editor?.setShowInvisibles value
 
+ReactiveAce.addProperty 'fontSize', ->
+    return @_editor?.getFontSize()
+  , (value) ->
+    @_editor?.setFontSize value
+
 ReactiveAce.addProperty 'tabSize', ->
     return @_getSession()?.getTabSize()
   , (value) ->

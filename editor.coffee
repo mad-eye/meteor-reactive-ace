@@ -167,6 +167,15 @@ ReactiveAce.addProperty 'newLineMode', ->
   , (value) ->
     @_getSession()?.getDocument().setNewLineMode(value)
 
+ReactiveAce.addProperty 'enableBasicAutocompletion', ->
+    return @_editor?.getOption 'enableBasicAutocompletion'
+  , (value) ->
+    @_editor?.setOption 'enableBasicAutocompletion', value
+
+ReactiveAce.addProperty 'enableSnippets', ->
+    return @_editor?.getOption 'enableSnippets'
+  , (value) ->
+    @_editor?.setOption 'enableSnippets', value
 
 ###
 # Read Only properties

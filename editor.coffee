@@ -5,6 +5,8 @@ defaultParseOptions =
   tolerant: false # tolerate errors, include errors: []; doesn't seem to work yet
   comments: false # comments: [type: value:]
 
+ACE_PREFIX = Meteor.settings.public.acePrefix || "/packages/reactive-ace/ace-builds/src"
+
 class @ReactiveAce
   constructor: (parseOptions = {}) ->
     self = this
@@ -35,12 +37,30 @@ class @ReactiveAce
       dep.changed()
     @setupEvents()
 
+  #extensionName is a name like language_tools or searchbox
+  #callback: (error, extension) ->
+  loadModule: (extensionName, callback) ->
+    jQuery.getScript("#{ACE_PREFIX}/ext-#{extensionName}.js")
+      .fail (jqxhr, settings, exception) ->
+        @changedExtension extensionName
+        callback exception
+      .done (script, textStatus) =>
+        extension = ace.require("ace/ext/#{extensionName}")
+        @changedExtension extensionName
+        callback null, extension
+
   depend: (key) ->
     @_deps[key] ?= new Deps.Dependency
     @_deps[key].depend()
 
+  dependOnExtension: (extensionName) ->
+    @depend "_loaded_extension_#{extensionName}"
+
   changed: (key) ->
     @_deps[key]?.changed()
+
+  changedExtension: (extensionName) ->
+    @changed "_loaded_extension_#{extensionName}"
 
   setupEvents: ->
     changePosition = _.throttle =>
@@ -168,11 +188,13 @@ ReactiveAce.addProperty 'newLineMode', ->
     @_getSession()?.getDocument().setNewLineMode(value)
 
 ReactiveAce.addProperty 'enableBasicAutocompletion', ->
+    @dependOnExtension "language_tools"
     return @_editor?.getOption 'enableBasicAutocompletion'
   , (value) ->
     @_editor?.setOption 'enableBasicAutocompletion', value
 
 ReactiveAce.addProperty 'enableSnippets', ->
+    @dependOnExtension "language_tools"
     return @_editor?.getOption 'enableSnippets'
   , (value) ->
     @_editor?.setOption 'enableSnippets', value

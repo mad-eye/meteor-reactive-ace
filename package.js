@@ -9,7 +9,7 @@ var fs = Npm.require("fs");
 var packagePath = path.join(path.resolve("."), "packages", "reactive-ace");
 
 Package.on_use(function (api, where) {
-  api.use(["templating", "coffeescript", "underscore", "deps"], ["client"]);
+  api.use(['jquery', "templating", "coffeescript", "underscore", "deps"], ["client"]);
 
   var files = fs.readdirSync(path.join(packagePath, "ace-builds", "src"));
   files.forEach(function(file){

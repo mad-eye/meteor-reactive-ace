@@ -38,16 +38,16 @@ class @ReactiveAce
     @setupEvents()
 
   #extensionName is a name like language_tools or searchbox
-  #callback: (error, extension) ->
+  #callback: (error) ->
   loadModule: (extensionName, callback) ->
     jQuery.getScript("#{ACE_PREFIX}/ext-#{extensionName}.js")
       .fail (jqxhr, settings, exception) ->
         @changedExtension extensionName
         callback exception
       .done (script, textStatus) =>
-        extension = ace.require("ace/ext/#{extensionName}")
-        @changedExtension extensionName
-        callback null, extension
+        ace.require "ace/ext/#{extensionName}", =>
+          @changedExtension extensionName
+          callback null
 
   depend: (key) ->
     @_deps[key] ?= new Deps.Dependency

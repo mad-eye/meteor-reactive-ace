@@ -198,6 +198,10 @@ ReactiveAce.addProperty 'enableSnippets', ->
     return @_editor?.getOption 'enableSnippets'
   , (value) ->
     @_editor?.setOption 'enableSnippets', value
+    #Work around for ace bug https://github.com/ajaxorg/ace/issues/1768
+    if value == false and @_editor
+      indentCmd = @_editor.commands.byName['indent']
+      @_editor.commands.bindKey 'Tab', indentCmd
 
 ###
 # Read Only properties

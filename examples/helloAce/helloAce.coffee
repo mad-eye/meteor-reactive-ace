@@ -1,9 +1,10 @@
 if Meteor.isClient
   window.editor = new ReactiveAce
 
-  Meteor.startup ->
-    Template.aceEditor.rendered = ->
-      editor.attach ace.edit "aceEditor"
+  Template.aceEditor.rendered = ->
+    editor.attach ace.edit "aceEditor"
+    editor.theme = "monokai"
+    editor.syntaxMode = "javascript"
 
   window.editor = new ReactiveAce
 

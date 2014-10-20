@@ -1,31 +1,34 @@
 meteor-reactive-ace
 ===================
 
-##Quick Start
+## Quick Start
 
 If you just want to use the ace editor as is, you can add it to your project with
 
 `meteor add dcsan:meteor-reactive-ace`
 
+## Updating ace version
+
 If you want to update the version of the ace-editor used, do this:
 
-
-1. Clone this repo
+* Clone this repo
 
 `git clone git://github.com/mad-eye/meteor-reactive-ace.git; cd meteor-reactive-ace`
 
-2. Update submodules
+* Update submodules
 
 `git submodule update --init ace-builds`
 
-3. copy latest version of ace into vendor dir
+* copy latest version of ace into vendor dir
 
 `cp -r ace-builds/src vendor/ace`
 
+## demo app
+
 Also there is an example app:
 
-  1. `cd examples/helloAce`
-  2. `meteor`
+* `cd examples/helloAce`
+* `meteor`
 
 ##Including in your project
 

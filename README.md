@@ -3,23 +3,29 @@ meteor-reactive-ace
 
 ##Quick Start
 
-0. Install [meteorite](https://github.com/oortcloud/meteorite)
-`
-npm install -g meteorite
+If you just want to use the ace editor as is, you can add it to your project with
+
+`meteor add dcsan:meteor-reactive-ace`
+
+If you want to update the version of the ace-editor used, do this:
+
 `
 1. Clone this repo
-`
-git clone git://github.com/mad-eye/meteor-reactive-ace.git; cd meteor-reactive-ace
-`
+
+`git clone git://github.com/mad-eye/meteor-reactive-ace.git; cd meteor-reactive-ace`
+
 2. Update submodules
+
 `git submodule update --init ace-builds`
-3. Check out the helloAce example
+
+3. copy latest version of ace into vendor dir
+
+`cp -r ace-builds/src vendor/ace`
+
+Also there is an example app:
+
   1. `cd examples/helloAce`
-  2. `mrt`
-
-4. copy latest version of ace into vendor
-
-    cp -r ace-builds/src vendor/ace
+  2. `meteor`
 
 ##Including in your project
 
@@ -42,6 +48,5 @@ Assuming your editor is a variabled named `editor`, try
 1. Turn on abstract syntax tree parsing with `editor.parseEnabled = true`
 2. View it with `editor.parsedBody`
 3. If you have an error in your javascript `editor.parsedError` will be populated.
-
 
 

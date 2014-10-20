@@ -1,6 +1,6 @@
 Package.describe({
   "summary": "Easily include ace, receive reactive varibles for cursor position, editor contents, etc",
-  "version": "0.0.41",
+  "version": "0.0.42",
   "name": "dcsan:reactive-ace",
   "git": 'https://github.com/dcsan/meteor-reactive-ace.git'
 });

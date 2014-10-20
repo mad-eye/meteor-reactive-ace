@@ -7,7 +7,7 @@ defaultParseOptions =
 
 author_prefix = "dcsan_"
 
-ACE_PREFIX = Meteor.settings?.public?.acePrefix || "/packages/#{author_prefix}reactive-ace/ace-builds/src"
+ACE_PREFIX = Meteor.settings?.public?.acePrefix || "/packages/#{author_prefix}reactive-ace/vendor/ace/src"
 
 class @ReactiveAce
   constructor: (parseOptions = {}) ->

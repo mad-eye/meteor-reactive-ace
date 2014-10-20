@@ -17,6 +17,10 @@ git clone git://github.com/mad-eye/meteor-reactive-ace.git; cd meteor-reactive-a
   1. `cd examples/helloAce`
   2. `mrt`
 
+4. copy latest version of ace into vendor
+
+    cp -r ace-builds/src vendor/ace
+
 ##Including in your project
 
 ###Setup

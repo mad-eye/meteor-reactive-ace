@@ -1,6 +1,6 @@
 Package.describe({
-  description: "Easily include ace, receive reactive varibles for cursor position, editor contents, etc",
-  "version": "0.0.3",
+  "description": "Easily include ace, receive reactive varibles for cursor position, editor contents, etc",
+  "version": "0.0.4",
   "name": "dcsan:reactive-ace",
   "git": 'https://github.com/dcsan/meteor-reactive-ace.git'
 });
@@ -8,7 +8,9 @@ Package.describe({
 var bundlerApi = null
 var path = Npm.require("path");
 var fs = Npm.require("fs");
-var packagePath = path.join(path.resolve("."), "packages", "reactive-ace");
+
+// var packagePath = path.join(path.resolve("."), "packages", "reactive-ace");
+var packagePath = path.join(path.resolve(".") );
 
 // console.log("packagePath:", packagePath);
 // console.log("dirName:", __dirname);
@@ -16,7 +18,13 @@ var packagePath = path.join(path.resolve("."), "packages", "reactive-ace");
 // console.log(require.main.filename)
 
 Package.on_use(function (api, where) {
-  api.use(['jquery', "templating", "coffeescript", "underscore", "deps"], ["client"]);
+  api.use([
+    'jquery@1.0.0',
+    "templating@1.0.0",
+    "coffeescript@1.0.0",
+    "underscore@1.0.0",
+    "deps@1.0.0"
+  ], ["client"]);
 
   var srcPath = path.join(packagePath, "ace-builds", "src")
   console.log('srcPath', srcPath)
@@ -46,5 +54,3 @@ Package.on_use(function (api, where) {
   ], "client");
 
 });
-
-

@@ -9,7 +9,7 @@ If you just want to use the ace editor as is, you can add it to your project wit
 
 If you want to update the version of the ace-editor used, do this:
 
-`
+
 1. Clone this repo
 
 `git clone git://github.com/mad-eye/meteor-reactive-ace.git; cd meteor-reactive-ace`

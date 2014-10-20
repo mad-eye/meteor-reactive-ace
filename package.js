@@ -2,6 +2,7 @@ Package.describe({
   description: "Easily include ace, receive reactive varibles for cursor position, editor contents, etc",
   "version": "0.0.3",
   "name": "dcsan:reactive-ace",
+  "git": 'https://github.com/dcsan/meteor-reactive-ace.git'
 });
 
 var bundlerApi = null
@@ -17,9 +18,11 @@ var packagePath = path.join(path.resolve("."), "packages", "reactive-ace");
 Package.on_use(function (api, where) {
   api.use(['jquery', "templating", "coffeescript", "underscore", "deps"], ["client"]);
 
-  var files = fs.readdirSync(path.join(packagePath, "ace-builds", "src"));
+  var srcPath = path.join(packagePath, "ace-builds", "src")
+  console.log('srcPath', srcPath)
+  var files = fs.readdirSync(srcPath);
   files.forEach(function(file){
-    // console.log("loading file", file)
+    console.log("add_file", file)
     if (file === "snippets"){return;}
     api.add_files(path.join("ace-builds", "src", file), "client", {isAsset: true});
   });
@@ -30,8 +33,18 @@ Package.on_use(function (api, where) {
     api.add_files(snippetPath, "client", {isAsset: true});
   })
 
+  api.add_files([
+    "ace-builds/src/ace.js", 
+    "ace-builds/src/ext-modelist.js", 
+    "lib/utils.coffee", 
+    "lib/crc32.js", 
+    "lib/esprima.js", 
+    "editor.coffee", 
+    "editorSetup.coffee", 
+    "hack.hack", 
+    "templates.html"
+  ], "client");
 
-  api.add_files(["ace-builds/src/ace.js", "ace-builds/src/ext-modelist.js", "lib/utils.coffee", "lib/crc32.js", "lib/esprima.js", "editor.coffee", "editorSetup.coffee", "hack.hack", "templates.html"], "client");
 });
 
 

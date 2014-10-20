@@ -1,6 +1,6 @@
 Package.describe({
   "summary": "Easily include ace, receive reactive varibles for cursor position, editor contents, etc",
-  "version": "0.0.4",
+  "version": "0.0.41",
   "name": "dcsan:reactive-ace",
   "git": 'https://github.com/dcsan/meteor-reactive-ace.git'
 });
@@ -33,8 +33,8 @@ Package.on_use(function (api, where) {
   files.forEach(function(file){
     console.log("add_file", file)
     if (file === "snippets"){return;}
-    addPath = path.join("vendor", "ace", "src", file)
-    api.add_files(addPath), "client", {isAsset: true});
+    addPath = path.join("vendor", "ace", "src", file);
+    api.add_files(addPath, "client", {isAsset: true});
   });
 
   var snippets = fs.readdirSync(path.join(packagePath, "ace-builds", "src", "snippets"));

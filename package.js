@@ -14,17 +14,17 @@ Package.on_use(function (api, where) {
   var files = fs.readdirSync(path.join(packagePath, "ace-builds", "src"));
   files.forEach(function(file){
     if (file === "snippets"){return;}
-    api.add_files(path.join("ace-builds", "src", file), "client", {isAsset: true});
+    api.addAssets([path.join("ace-builds", "src", file)], "client");
   });
 
   var snippets = fs.readdirSync(path.join(packagePath, "ace-builds", "src", "snippets"));
   snippets.forEach(function(file){
     snippetPath = path.join("ace-builds", "src", "snippets", file)
-    api.add_files(snippetPath, "client", {isAsset: true});
+    api.addAssets([snippetPath], "client");
   })
 
 
-  api.add_files(["ace-builds/src/ace.js", "ace-builds/src/ext-modelist.js", "lib/utils.coffee", "lib/crc32.js", "lib/esprima.js", "editor.coffee", "editorSetup.coffee", "hack.hack", "templates.html"], "client");
+  api.add_files(["ace-builds/src/ace.js", "ace-builds/src/ext-modelist.js", "lib/utils.coffee", "lib/crc32.js", "lib/esprima.js", "editor.coffee", "editorSetup.coffee", "templates.html"], "client");
 });
 
 
